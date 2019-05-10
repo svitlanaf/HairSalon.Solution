@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System;
 using Microsoft.AspNetCore.Mvc;
-using BestRestaurants.Models;
+using HairSalon.Models;
 using System.Linq;
 using MySql.Data.MySqlClient;
 

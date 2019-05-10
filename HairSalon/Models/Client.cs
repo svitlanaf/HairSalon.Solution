@@ -7,13 +7,13 @@ namespace HairSalon.Models
   public class Client
   {
       private int _id;
-      private string _stylistId;
+      private int _stylistId;
       private string _details;
 
-      public Client(string details, string stylistId, int id = 0)
+      public Client(string details, int stylistId, int id = 0)
       {
           _details = details;
-          _stylistId - stylistId;
+          _stylistId = stylistId;
           _id = id;
       }
 
