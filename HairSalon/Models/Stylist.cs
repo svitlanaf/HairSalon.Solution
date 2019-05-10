@@ -101,9 +101,9 @@ namespace HairSalon.Models
       return foundStylist;
     }
 
-    public override bool Equals(System.Object otherCuisine)
+    public override bool Equals(System.Object otherStylist)
     {
-      if (!(otherCuisine is Stylist))
+      if (!(otherStylist is Stylist))
       {
         return false;
       }
@@ -116,6 +116,91 @@ namespace HairSalon.Models
         return (idEquality && nameEquality && InformationEquality);
       }
     }
+
+    public void Save()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO stylists (information, name) VALUES (@StylistInformation, @StylistName);";
+      MySqlParameter information = new MySqlParameter();
+      information.ParameterName = "@StylistInformation";
+      information.Value = this._information;
+      cmd.Parameters.Add(information);
+      MySqlParameter name = new MySqlParameter();
+      name.ParameterName = "@StylistName";
+      name.Value = this._name;
+      cmd.Parameters.Add(name);
+      cmd.ExecuteNonQuery();
+      _id = (int) cmd.LastInsertedId;
+       conn.Close();
+       if (conn != null)
+       {
+         conn.Dispose();
+       }
+    }
+
+    public void EditName(string newName)
+        {
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"UPDATE stylists SET name = @newName WHERE id = @searchId;";
+        MySqlParameter searchId = new MySqlParameter();
+        searchId.ParameterName = "@searchId";
+        searchId.Value = _id;
+        cmd.Parameters.Add(searchId);
+        MySqlParameter name = new MySqlParameter();
+        name.ParameterName = "@newName";
+        name.Value = newName;
+        cmd.Parameters.Add(name);
+        cmd.ExecuteNonQuery();
+        _name = newName;
+        conn.Close();
+        if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
+    public void EditInformation(string newInformation)
+        {
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"UPDATE stylists SET information = @newInformation WHERE id = @searchId;";
+        MySqlParameter searchId = new MySqlParameter();
+        searchId.ParameterName = "@searchId";
+        searchId.Value = _id;
+        cmd.Parameters.Add(searchId);
+        MySqlParameter information = new MySqlParameter();
+        information.ParameterName = "@newInformation";
+        information.Value = newInformation;
+        cmd.Parameters.Add(information);
+        cmd.ExecuteNonQuery();
+        _information = newInformation;
+        conn.Close();
+        if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
+    public void Delete()
+      {
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        MySqlCommand cmd = new MySqlCommand("DELETE FROM stylists WHERE id = @StylistId;", conn);
+        MySqlParameter stylistIdParameter = new MySqlParameter();
+        stylistIdParameter.ParameterName = "@StylistId";
+        stylistIdParameter.Value = _id;
+        cmd.Parameters.Add(stylistIdParameter);
+        cmd.ExecuteNonQuery();
+        if (conn != null)
+        {
+          conn.Close();
+        }
+      }
 
   }
 }

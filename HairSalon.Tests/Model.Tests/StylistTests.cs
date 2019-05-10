@@ -10,8 +10,8 @@ namespace HairSalon.Tests
     {
         public void Dispose()
         {
-        Cuisine.ClearAll();
-        Restaurant.ClearAll();
+        Stylist.ClearAll();
+        Client.ClearAll();
         }
 
         public StylistTest()
@@ -86,6 +86,49 @@ namespace HairSalon.Tests
         {
         int result = Stylist.GetAll().Count;
         Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void Save_SavesStylistToDatabase_StylistList()
+        {
+        Stylist testStylist = new Stylist("Emmaline", "Has an experience in the beauty industry.");
+        testStylist.Save();
+        List<Stylist> result = Stylist.GetAll();
+        List<Stylist> testList = new List<Stylist>{testStylist};
+        CollectionAssert.AreEqual(testList, result);
+        }
+
+        [TestMethod]
+        public void Save_DatabaseAssignsIdToStylist_Id()
+        {
+        Stylist testStylist = new Stylist("Emmaline", "Has an experience in the beauty industry.");
+        testStylist.Save();
+        Stylist savedStylist = Stylist.GetAll()[0];
+        int result = savedStylist.GetId();
+        int testId = testStylist.GetId();
+        Assert.AreEqual(testId, result);
+        }
+
+        [TestMethod]
+        public void Edit_UpdatesStylistNameInDatabase_String()
+        {
+        Stylist testStylist = new Stylist("Emmaline", "");
+        testStylist.Save();
+        string secondName = "Anna";
+        testStylist.EditName(secondName);
+        string result = Stylist.Find(testStylist.GetId()).GetName();
+        Assert.AreEqual(secondName, result);
+        }
+
+        [TestMethod]
+        public void Edit_UpdatesStylistInformationInDatabase_String()
+        {
+        Stylist testStylist = new Stylist("", "Has an experience in the beauty industry.");
+        testStylist.Save();
+        string secondInformation = "Super hair dresser.";
+        testStylist.EditInformation(secondInformation);
+        string result = Stylist.Find(testStylist.GetId()).GetInformation();
+        Assert.AreEqual(secondInformation, result);
         }
     }
 }
