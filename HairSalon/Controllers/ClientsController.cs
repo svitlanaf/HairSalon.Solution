@@ -20,7 +20,8 @@ namespace HairSalon.Controllers
       [HttpGet("/stylists/{id}/clients/new")]
       public ActionResult New(int id)
       {
-          return View(id);
+          Stylist myStylist = Stylist.Find(id);
+        return View(myStylist);
       }
 
       [HttpPost("/stylists/{id}/clients")]

@@ -178,7 +178,7 @@ namespace HairSalon.Models
             }
         }
 
-        public void Edit(string newName, string newDetails, DateTime appointment)
+        public void Edit(string newName, string newDetails, DateTime newAppointment)
         {
         MySqlConnection conn = DB.Connection();
         conn.Open();
@@ -196,10 +196,10 @@ namespace HairSalon.Models
         details.ParameterName = "@newDetails";
         details.Value = newDetails;
         cmd.Parameters.Add(details);
-        MySqlParameter clientAppointment = new MySqlParameter();
-        clientAppointment.ParameterName = "@newAppointment";
-        clientAppointment.Value = newAppointment;
-        cmd.Parameters.Add(clientAppointment);
+        MySqlParameter appointment = new MySqlParameter();
+        appointment.ParameterName = "@newAppointment";
+        appointment.Value = newAppointment;
+        cmd.Parameters.Add(appointment);
         cmd.ExecuteNonQuery();
         _name = newName;
         _details = newDetails;
