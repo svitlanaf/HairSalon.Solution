@@ -58,6 +58,35 @@ namespace HairSalon.Models
       return allStylists;
     }
 
+    public List<Client> GetClients()
+    {
+        List<Client> allClients = new List<Client>{};
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT * FROM clients WHERE stylist_id = @thisId;";
+        MySqlParameter thisId = new MySqlParameter();
+        thisId.ParameterName = "@thisId";
+        thisId.Value = _id;
+        cmd.Parameters.Add(thisId);
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+        while(rdr.Read())
+        {
+            int clientId = rdr.GetInt32(0);
+            int clientStylistId = rdr.GetInt32(1);
+            string clientDetails = rdr.GetString(2);
+                
+            Client newClient = new Client(clientDetails, clientId, clientStylistId);
+            allClients.Add(newClient);
+        }
+        conn.Close();
+        if (conn != null)
+        {
+            conn.Dispose();
+        }
+        return allClients;
+    }
+
     public static void ClearAll()
     {
       MySqlConnection conn = DB.Connection();
@@ -101,19 +130,24 @@ namespace HairSalon.Models
       return foundStylist;
     }
 
-    public override bool Equals(System.Object otherStylist)
+
+    public override int GetHashCode()
     {
-      if (!(otherStylist is Stylist))
+      return this.GetId().GetHashCode();
+    }
+    public override bool Equals(System.Object secondStylist)
+    {
+      if (!(secondStylist is Stylist))
       {
         return false;
       }
-      else
+      else 
       {
-        Stylist newStylist = (Stylist) otherStylist;
-        bool idEquality = (this.GetId() == newStylist.GetId());
-        bool nameEquality = (this.GetName() == newStylist.GetName());
-        bool InformationEquality = (this.GetInformation() == newStylist.GetInformation());
-        return (idEquality && nameEquality && InformationEquality);
+        Stylist firstStylist = (Stylist) secondStylist;
+        bool idEquality = (this.GetId() == firstStylist.GetId());
+        bool nameEquality = (this.GetName() == firstStylist.GetName());
+        bool informationEquality = (this.GetInformation() == firstStylist.GetInformation());
+        return (idEquality && nameEquality && informationEquality);
       }
     }
 

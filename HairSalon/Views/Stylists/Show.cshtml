@@ -1,0 +1,33 @@
+@using HairSalon.Models;
+
+@{
+    Layout = "_Layout";
+}
+
+<h3>@Model.GetName()</h3>
+<p>@Model.GetInformation()</p>
+
+<form method="get" action="/stylists/@Model.GetId()/edit">
+    <button type="submit">Edit</button>
+</form>
+
+
+<form method="post" action="/stylists/@Model.GetId()/delete">
+    <button type="submit">Delete</button>
+</form>
+
+<h4>List of clients of this stylist</h4>
+@if(Model.GetClients().Count < 1)
+{
+    <p>There are no clients to display!</p>
+}
+else
+{
+    <ul>
+        @foreach(Client client in Model.GetClients())
+        {
+            <li>@client.GetDetails()</li>
+        }
+    </ul>
+}
+<a href="/stylists/@Model.GetId()/clients/new">Add a new client</a>

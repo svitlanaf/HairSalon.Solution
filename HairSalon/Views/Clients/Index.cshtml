@@ -1,0 +1,24 @@
+@using HairSalon.Models;
+@using System;
+@using System.Collections.Generic;
+
+@{
+    Layout = "_Layout";
+}
+
+<h1>Clients</h1>
+
+@if(Model.Count < 1)
+{
+    <p>There are no clients to display!</p>
+}
+else
+{
+    <p>(Click for more information)</p>
+    <ul>
+        @foreach(Client client in Model)
+        {
+            <li>@client.GetDetails()</li>
+        }
+    </ul>
+}

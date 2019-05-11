@@ -1,0 +1,11 @@
+@{
+    Layout = "_Layout";
+}
+
+<form action="/stylists/@Model/clients" method="post">
+ <label for="name">Client name:</label>
+ <input required id="name" name="name" type="text"><br>
+ <label for="details">Details:</label>
+ <input required id="details" name="details" type="text"><br>
+ <button type="submit">Save</button>
+</form>
