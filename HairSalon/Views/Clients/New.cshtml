@@ -2,10 +2,12 @@
     Layout = "_Layout";
 }
 
-<form action="/stylists/@Model/clients" method="post">
+<form action="/stylists/@Model.GetStylistId()/clients/@Model.GetId()/edit" method="post">
  <label for="name">Client name:</label>
- <input required id="name" name="name" type="text"><br>
+ <input required id="name" name="name" type="text" value="@Model.GetName()"><br>
  <label for="details">Details:</label>
- <input required id="details" name="details" type="text"><br>
+ <input required id="details" name="details" type="text" value="@Model.GetDetails()"><br>
+ <input id='appointment' name='appointment' type='date'><br>
+ <label for='appointment'>Appointment date</label>
  <button type="submit">Save</button>
 </form>

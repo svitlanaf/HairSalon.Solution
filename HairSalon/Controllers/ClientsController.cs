@@ -24,9 +24,9 @@ namespace HairSalon.Controllers
       }
 
       [HttpPost("/stylists/{id}/clients")]
-      public ActionResult Create(string details, int id)
+      public ActionResult Create(string name, string details, DateTime appointment, int id)
       {
-          Client myClient = new Client(details, id);
+          Client myClient = new Client(name, details, appointment, id);
           myClient.Save();
           return RedirectToAction("Show", "Stylists", id);
       }
@@ -47,10 +47,10 @@ namespace HairSalon.Controllers
         }
 
         [ActionName("Edit"), HttpPost("/stylists/{stylistId}/clients/{clientId}/edit")]
-        public ActionResult Update(int clientId, int stylistId, string details)
+        public ActionResult Update(int clientId, int stylistId, string name, string details, DateTime appointment)
         {
         Client thisClient = Client.Find(clientId);
-        thisClient.EditDetails(details);
+        thisClient.Edit(name, details, appointment);
         return RedirectToAction("Show", thisClient);
         }
 

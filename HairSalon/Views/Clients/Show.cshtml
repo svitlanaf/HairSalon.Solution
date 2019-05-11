@@ -4,7 +4,11 @@
     Layout = "_Layout";
 }
 
-<p>@Model.GetDetails()</p>
+<h3>@Model.GetName()</h3>
+<p>@Model.GetDetails()
+    @Model.GetAppointment()
+</p>
+
 
 
 <form method="get" action="/stylists/@Model.GetStylistId()/clients/@Model.GetId()/edit">

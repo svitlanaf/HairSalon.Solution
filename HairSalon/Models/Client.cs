@@ -8,19 +8,19 @@ namespace HairSalon.Models
   {
       private int _id;
       private int _stylistId;
+      private string _name;
       private string _details;
+      private DateTime _appointment;
 
-      public Client(string details, int stylistId, int id = 0)
+      public Client(string name, string details, DateTime appointment, int stylistId, int id = 0)
       {
+          _name = name;
           _details = details;
+          _appointment = appointment;
           _stylistId = stylistId;
           _id = id;
       }
 
-    public string GetDetails()
-    {
-      return _details;
-    }
 
     public int GetStylistId()
     {
@@ -30,6 +30,21 @@ namespace HairSalon.Models
      public int GetId()
     {
       return _id;
+    }
+
+    public string GetName()
+    {
+      return _name;
+    }
+
+    public string GetDetails()
+    {
+      return _details;
+    }
+
+    public DateTime GetAppointment()
+    {
+        return _appointment;
     }
 
     public static List<Client> GetAll()
@@ -45,9 +60,11 @@ namespace HairSalon.Models
     {
         int clientId = rdr.GetInt32(0);
         int clientStylistId = rdr.GetInt32(1);
-        string clientDetails = rdr.GetString(2);
+        string clientName = rdr.GetString(2);
+        string clientDetails = rdr.GetString(3);
+        DateTime clientAppointment = rdr.GetDateTime(4);
         
-        Client newClient = new Client(clientDetails, clientId, clientStylistId);
+        Client newClient = new Client(clientName, clientDetails, clientAppointment, clientId, clientStylistId);
         allClients.Add(newClient);
     }
     conn.Close();
@@ -84,21 +101,25 @@ namespace HairSalon.Models
         cmd.Parameters.Add(searchId);
         var rdr = cmd.ExecuteReader() as MySqlDataReader;
         int clientId = 0;
-        string clientDetails = "";
         int clientStylistId = 0;
+        string clientName = "";
+        string clientDetails = "";
+        DateTime clientAppointment = new DateTime();
         while(rdr.Read())
         {
             clientId = rdr.GetInt32(0);
             clientStylistId = rdr.GetInt32(1);
-            clientDetails = rdr.GetString(2);
+            clientName = rdr.GetString(2);
+            clientDetails = rdr.GetString(3);
+            clientAppointment = rdr.GetDateTime(4);
         }
-        Client newClient = new Client(clientDetails, clientStylistId, clientId);
+        Client foundClient = new Client(clientName, clientDetails, clientAppointment, clientStylistId, clientId);
         conn.Close();
         if (conn != null)
             {
                 conn.Dispose();
             }
-        return newClient;
+        return foundClient;
         }
 
         public override int GetHashCode()
@@ -115,9 +136,11 @@ namespace HairSalon.Models
             {
                 Client newClient = (Client) otherClient;
                 bool idEquality = this.GetId() == newClient.GetId();
-                bool informationEquality = this.GetDetails() == newClient.GetDetails();
+                bool nameEquality = this.GetName() == newClient.GetName();
+                bool detailsEquality = this.GetDetails() == newClient.GetDetails();
+                bool appointmentEquality = this.GetAppointment() == newClient.GetAppointment();
                 bool stylistIdEquality = this.GetStylistId() == newClient.GetStylistId();
-                return (idEquality && informationEquality && stylistIdEquality);
+                return (idEquality && detailsEquality && stylistIdEquality);
             }
         }
 
@@ -126,11 +149,22 @@ namespace HairSalon.Models
         MySqlConnection conn = DB.Connection();
         conn.Open();
         var cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"INSERT INTO clients (details, stylist_id) VALUES (@details, @stylist_id);";
+        cmd.CommandText = @"INSERT INTO clients (name, details, appointment, stylist_id) VALUES (@name, @details, @appointment, @stylist_id);";
+        MySqlParameter name = new MySqlParameter();
+        name.ParameterName = "@name";
+        name.Value = this._name;
+        cmd.Parameters.Add(name);
+
         MySqlParameter details = new MySqlParameter();
         details.ParameterName = "@details";
         details.Value = this._details;
         cmd.Parameters.Add(details);
+
+        MySqlParameter appointment = new MySqlParameter();
+        appointment.ParameterName = "@appointment";
+        appointment.Value = this._appointment;
+        cmd.Parameters.Add(appointment);
+
         MySqlParameter stylistId = new MySqlParameter();
         stylistId.ParameterName = "@stylist_id";
         stylistId.Value = this._stylistId;
@@ -144,22 +178,32 @@ namespace HairSalon.Models
             }
         }
 
-        public void EditDetails(string newDetails)
+        public void Edit(string newName, string newDetails, DateTime appointment)
         {
         MySqlConnection conn = DB.Connection();
         conn.Open();
         var cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"UPDATE clients SET details = @newdetails WHERE id = @searchId;";
+        cmd.CommandText = @"UPDATE clients SET name = @newName, details = @newDetails, appointment = @newAppointment WHERE id = (@searchId);";
         MySqlParameter searchId = new MySqlParameter();
         searchId.ParameterName = "@searchId";
         searchId.Value = _id;
         cmd.Parameters.Add(searchId);
+        MySqlParameter name = new MySqlParameter();
+        name.ParameterName = "@newName";
+        name.Value = newName;
+        cmd.Parameters.Add(name);
         MySqlParameter details = new MySqlParameter();
         details.ParameterName = "@newDetails";
         details.Value = newDetails;
         cmd.Parameters.Add(details);
+        MySqlParameter clientAppointment = new MySqlParameter();
+        clientAppointment.ParameterName = "@newAppointment";
+        clientAppointment.Value = newAppointment;
+        cmd.Parameters.Add(clientAppointment);
         cmd.ExecuteNonQuery();
+        _name = newName;
         _details = newDetails;
+        _appointment = newAppointment;
         conn.Close();
         if (conn != null)
             {

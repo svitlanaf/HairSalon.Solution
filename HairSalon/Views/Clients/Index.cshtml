@@ -18,7 +18,9 @@ else
     <ul>
         @foreach(Client client in Model)
         {
+            <li>@client.GetName()</li>
             <li>@client.GetDetails()</li>
+            <li>@client.GetAppointment()</li>
         }
     </ul>
 }
