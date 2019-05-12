@@ -32,4 +32,5 @@ else
         }
     </ul>
 }
-<a href="/stylists/@Model.GetId()/clients/new">Add a new client</a>
+<a href="/stylists/@Model.GetId()/clients/new">Add a new client</a> <br>
+@Html.ActionLink("List of stylists", "Index", null,  new { @class = "btn" })
