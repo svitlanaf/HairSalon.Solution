@@ -6,10 +6,10 @@
 
 <form action="/stylists/@Model/clients" method="post">
  <label for="name">Client name:</label>
- <input required id="name" name="name" type="text" value="@Model.GetName()"><br>
+ <input required id="name" name="name" type="text"><br>
  <label for="details">Details:</label>
- <input required id="details" name="details" type="text" value="@Model.GetDetails()"><br>
+ <input required id="details" name="details" type="text" ><br>
  <label for='appointment'>Appointment date</label>
- <input id='appointment' name='appointment' type='date' value ="@Model.GetAppointment()"><br>
+ <input id='appointment' name='appointment' type='date' ><br>
  <button type="submit">Save</button>
 </form>
