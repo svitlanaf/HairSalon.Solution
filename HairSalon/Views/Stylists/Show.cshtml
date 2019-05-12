@@ -16,7 +16,7 @@
     <button type="submit">Delete</button>
 </form>
 
-<h4>List of clients for this stylist</h4>
+<h4>Clients of @Model.GetName()</h4>
 @if(Model.GetClients().Count < 1)
 {
     <p>There are no clients to display!</p>
