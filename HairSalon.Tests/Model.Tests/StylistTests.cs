@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HairSalon.Models;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace HairSalon.Tests
 {
@@ -46,6 +47,18 @@ namespace HairSalon.Tests
         Stylist newStylist = new Stylist(name, information);
         string result = newStylist.GetName();
         Assert.AreEqual(name, result);
+        }
+
+        [TestMethod]
+        public void SetName_SetName_String()
+        {
+        string name = "Emmaline";
+        string information = "Has an experience in the beauty industry.";
+        Stylist newStylist = new Stylist(name, information);
+        string updatedName = "Milan";
+        newStylist.SetName(updatedName);
+        string result = newStylist.GetName();
+        Assert.AreEqual(updatedName, result);
         }
 
         [TestMethod]

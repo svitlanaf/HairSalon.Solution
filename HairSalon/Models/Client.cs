@@ -47,6 +47,23 @@ namespace HairSalon.Models
         return _appointment;
     }
 
+    
+    public string SetName()
+    {
+      return _name;
+    }
+
+    public string SetDetails()
+    {
+      return _details;
+    }
+
+    public DateTime SetAppointment()
+    {
+        return _appointment;
+    }
+
+
     public static List<Client> GetAll()
 
     {

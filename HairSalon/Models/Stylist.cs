@@ -32,6 +32,17 @@ namespace HairSalon.Models
       return _id;
     }
 
+    public string SetName()
+    {
+      return _name;
+    }
+
+    public string SetInformation()
+    {
+      return _information;
+    }
+
+
     public static List<Stylist> GetAll()
 
     {
