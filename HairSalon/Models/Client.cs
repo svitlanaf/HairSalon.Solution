@@ -48,19 +48,19 @@ namespace HairSalon.Models
     }
 
     
-    public string SetName()
+    public void  SetName(string name)
     {
-      return _name;
+        _name = name;
     }
 
-    public string SetDetails()
+    public void SetDetails(string details)
     {
-      return _details;
+      _details = details;;
     }
 
-    public DateTime SetAppointment()
+    public void SetAppointment(DateTime appointment)
     {
-        return _appointment;
+        _appointment = appointment;
     }
 
 
@@ -71,7 +71,7 @@ namespace HairSalon.Models
     MySqlConnection conn = DB.Connection();
     conn.Open();
     MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-    cmd.CommandText = @"SELECT * FROM clients;";
+    cmd.CommandText = @"SELECT id, stylist_id, name, details, appointment FROM clients;";
     MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
     while(rdr.Read())
     {
@@ -81,7 +81,7 @@ namespace HairSalon.Models
         string clientDetails = rdr.GetString(3);
         DateTime clientAppointment = rdr.GetDateTime(4);
         
-        Client newClient = new Client(clientName, clientDetails, clientAppointment, clientId, clientStylistId);
+        Client newClient = new Client(clientName, clientDetails, clientAppointment, clientStylistId, clientId);
         allClients.Add(newClient);
     }
     conn.Close();

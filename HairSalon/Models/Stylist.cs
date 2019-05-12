@@ -32,14 +32,14 @@ namespace HairSalon.Models
       return _id;
     }
 
-    public string SetName()
+    public  void SetName(string name)
     {
-      return _name;
+      _name = name;
     }
 
-    public string SetInformation()
+    public void SetInformation(string information)
     {
-      return _information;
+      _information = information;
     }
 
 
