@@ -50,7 +50,7 @@ namespace HairSalon.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM stylists;";
+      cmd.CommandText = @"SELECT id, name, information FROM stylists;";
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
@@ -89,7 +89,7 @@ namespace HairSalon.Models
             string clientDetails = rdr.GetString(3);
             DateTime clientAppointment = rdr.GetDateTime(4);
                 
-            Client newClient = new Client(clientName, clientDetails, clientAppointment, clientId, clientStylistId);
+            Client newClient = new Client(clientName, clientDetails, clientAppointment, clientStylistId, clientId);
             allClients.Add(newClient);
         }
         conn.Close();
