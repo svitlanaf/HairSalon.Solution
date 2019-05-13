@@ -23,7 +23,7 @@ namespace HairSalon.Controllers
           return View(id);
       }
 
-      [HttpPost("/stylists/{id}//new")]
+      [HttpPost("/stylists/{id}/clients")]
       public ActionResult Create(string name, string details, DateTime appointment, int id)
       {
           Client myClient = new Client(name, details, appointment, id);
