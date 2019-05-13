@@ -23,6 +23,14 @@ namespace HairSalon.Controllers
           return View();
       }
 
+      [HttpPost("/stylists/create")]
+      public ActionResult Create(string name, string information)
+      {
+          Stylist myStylist = new Stylist(name, information);
+          myStylist.Save();
+          return RedirectToAction("Index");
+      }
+
       [HttpGet("/stylists/{id}")]
       public ActionResult Show(int id)
       {
