@@ -51,16 +51,18 @@ namespace HairSalon.Controllers
         {
         Client thisClient = Client.Find(clientId);
         thisClient.Edit(name, details, appointment);
-        return RedirectToAction("Index", "Stylists");
+        int idOfStylist = thisClient.GetStylistId();
+        return RedirectToAction("Show", "Stylists", new { id = idOfStylist });
         }
 
 
         [ActionName("Destroy"), HttpPost("/stylists/{stylistId}/clients/{clientId}/delete")]
         public ActionResult Destroy(int clientId)
         {
-        Client deleteClient = Client.Find(clientId);
-        deleteClient.Delete();
-        return RedirectToAction("Index");
+        Client client = Client.Find(clientId);
+        int stylistId = client.GetStylistId();
+        client.Delete();
+        return RedirectToAction("Show", "Stylists", new { id = stylistId });
         }
 
   }
