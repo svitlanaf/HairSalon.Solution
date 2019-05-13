@@ -160,18 +160,3 @@ namespace HairSalon.Tests
         }
     }
 }
-
-// [TestMethod]
-//     public void Save_SavesToDatabase_Client()
-//     {
-//       Stylist testStylist = new Stylist("Otto", "Awesome stylist", 1);
-//       testStylist.Save();
-//       int testId = testStylist.GetId();
-//       Client testClient = new Client("Ivan", "Trim", DateTime.Parse("12/03/2019"), testId);
-//       testClient.Save();
-//       Client result = Client.GetAll()[0];
-//       Assert.AreEqual(testClient.GetName(), result.GetName());
-//       Assert.AreEqual(testClient.GetDetails(), result.GetDetails());
-//       Assert.AreEqual(testClient.GetAppointment(), result.GetAppointment());
-//       Assert.AreEqual(testClient.GetStylistId(), result.GetStylistId());
-//     }

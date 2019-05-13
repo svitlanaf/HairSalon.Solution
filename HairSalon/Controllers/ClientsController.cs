@@ -51,7 +51,7 @@ namespace HairSalon.Controllers
         {
         Client thisClient = Client.Find(clientId);
         thisClient.Edit(name, details, appointment);
-        return RedirectToAction("Show", thisClient);
+        return RedirectToAction("Index", "Stylists");
         }
 
 

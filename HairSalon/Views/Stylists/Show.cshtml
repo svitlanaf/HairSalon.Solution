@@ -17,20 +17,31 @@
 </form>
 
 <h4>Clients of @Model.GetName()</h4>
+<br>
 @if(Model.GetClients().Count < 1)
 {
     <p>There are no clients to display!</p>
+    <br>
 }
 else
 {
-    <ul>
+    
         @foreach(Client client in Model.GetClients())
         {
-            <li>@client.GetName()</li>
-            <li>@client.GetDetails()</li>
-            <li>@client.GetAppointment()</li>
+            @client.GetName()<br>
+            @client.GetDetails()<br>
+            @client.GetAppointment()<br><br>
+            <form method="get" action="/stylists/@client.GetStylistId()/clients/@client.GetId()/edit">
+                <button type="submit">Edit</button>
+            </form>
+
+
+            <form method="post" action="/stylists/@client.GetStylistId()/clients/@client.GetId()/delete">
+                <button type="submit">Delete</button>
+            </form>
         }
-    </ul>
+    
 }
+<br>
 <a href="/stylists/@Model.GetId()/clients/new">Add a new client</a> <br>
 @Html.ActionLink("List of stylists", "Index", null,  new { @class = "btn" })

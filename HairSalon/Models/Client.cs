@@ -205,14 +205,17 @@ namespace HairSalon.Models
         searchId.ParameterName = "@searchId";
         searchId.Value = _id;
         cmd.Parameters.Add(searchId);
+
         MySqlParameter name = new MySqlParameter();
         name.ParameterName = "@newName";
         name.Value = newName;
         cmd.Parameters.Add(name);
+
         MySqlParameter details = new MySqlParameter();
         details.ParameterName = "@newDetails";
         details.Value = newDetails;
         cmd.Parameters.Add(details);
+        
         MySqlParameter appointment = new MySqlParameter();
         appointment.ParameterName = "@newAppointment";
         appointment.Value = newAppointment;

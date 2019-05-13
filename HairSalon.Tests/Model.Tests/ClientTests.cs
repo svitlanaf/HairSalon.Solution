@@ -165,41 +165,61 @@ namespace   HairSalon.Tests
       CollectionAssert.AreEqual(testList, result);
     }
 
-    // [TestMethod]
-    // public void Save_AssignsIdToObject_Id()
-    // {
-    //   Client stylistId = stylistId.GetStylistId();
-    //   Client testClient = new Client("Ivan", "Trim", DateTime.Parse("12/03/2019"), stylistId);
-    //   testClient.Save();
-    //   Client savedClient = Client.GetAll()[0];
-    //   int result = savedClient.GetId();
-    //   int testId = testClient.GetId();
-    //   Assert.AreEqual(testId, result);
-    // }
+    [TestMethod]
+    public void Save_AssignsIdToObject_Id()
+    {
+      Stylist testStylist = new Stylist("Otto", "Awesome stylist", 1);
+      testStylist.Save();
+      int testId = testStylist.GetId();
+      Client testClient = new Client("Ivan", "Trim", DateTime.Parse("12/03/2019"), testId);
+      testClient.Save();
+      Client savedClient = Client.GetAll()[0];
+      int result = savedClient.GetId();
+      int testClientId = testClient.GetId();
+      Assert.AreEqual(testClientId, result);
+    }
 
-    
+    [TestMethod]
+    public void Edit_UpdatesClientNameInDatabase_String()
+    {
+      Stylist testStylist = new Stylist("Otto", "Awesome stylist", 1);
+      testStylist.Save();
+      int testId = testStylist.GetId();
+      Client testClient = new Client("Ivan","Trim", DateTime.Parse("12/03/2019"), testId);
+      testClient.Save();
+      string secondName = "Tristan";
+      testClient.Edit(secondName, "Trim", DateTime.Parse("12/03/2019"));
+      string result = Client.Find(testClient.GetId()).GetName();
+      Assert.AreEqual(secondName, result);
+    }
 
-    // [TestMethod]
-    // public void Edit_UpdatesClientNameInDatabase_String()
-    // {
-    //   Client testClient = new Client("Ivan","Trim", DateTime.Parse("12/03/2019"), 1);
-    //   testClient.Save();
-    //   string secondName = "Tristan";
-    //   testClient.Edit(secondName);
-    //   string result = Client.Find(testClient.GetId()).GetName();
-    //   Assert.AreEqual(secondName, result);
-    // }
+    [TestMethod]
+    public void Edit_UpdatesClienDetailsInDatabase_String()
+    {
+      Stylist testStylist = new Stylist("Otto", "Awesome stylist", 1);
+      testStylist.Save();
+      int testId = testStylist.GetId();
+      Client testClient = new Client("Tristan","Trim", DateTime.Parse("12/03/2019"), testId);
+      testClient.Save();
+      string secondDetails = "Coloring";
+      testClient.Edit("Tristan", secondDetails, DateTime.Parse("12/03/2019"));
+      string result = Client.Find(testClient.GetId()).GetDetails();
+      Assert.AreEqual(secondDetails, result);
+    }
 
-    // [TestMethod]
-    // public void Edit_UpdatesClientDetailsInDatabase_String()
-    // {
-    //   Client testClient = new Client("Tristan","Trim", DateTime.Parse("12/03/2019"), 1);
-    //   testClient.Save();
-    //   string secondDetails = "Hair cut";
-    //   testClient.Edit(secondDetails);
-    //   string result = Client.Find(testClient.GetId()).GetDetails();
-    //   Assert.AreEqual(secondDetails, result);
-    // }
+    [TestMethod]
+    public void Edit_UpdatesClienAppointmemntDateInDatabase_DateTime()
+    {
+      Stylist testStylist = new Stylist("Otto", "Awesome stylist", 1);
+      testStylist.Save();
+      int testId = testStylist.GetId();
+      Client testClient = new Client("Tristan","Trim", DateTime.Parse("12/03/2019"), testId);
+      testClient.Save();
+      DateTime secondAppointment = DateTime.Parse("12/05/2019");
+      testClient.Edit("Tristan", "Trim", secondAppointment);
+      DateTime result = Client.Find(testClient.GetId()).GetAppointment();
+      Assert.AreEqual(secondAppointment, result);
+    }
     
     }
 }
